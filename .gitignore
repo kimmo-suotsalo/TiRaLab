@@ -11,3 +11,9 @@
 *.lai
 *.la
 *.a
+
+# Other
+.metadata/
+project/Debug/
+project/.c*
+project/.p*
