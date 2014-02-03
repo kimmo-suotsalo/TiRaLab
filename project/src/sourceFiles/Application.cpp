@@ -20,8 +20,10 @@ void Application::run() {
 
 	FileOperator fileOperator("data/map.txt");
 	DijkstraSearcher dijkstraSearcher( fileOperator.getSize(), fileOperator.getDataArray() );
-	dijkstraSearcher.initializeSingleSource();
-	dijkstraSearcher.testHeap();
+	int startLocation[] = {0, 3};
+	dijkstraSearcher.initializeSingleSource(startLocation);
+	dijkstraSearcher.heapInsertAll();
+	dijkstraSearcher.search();
 
 	std::cout << "Map array: \n"<< std::endl;
 	for (int row = 0; row < fileOperator.getSize()[0]; row++) {

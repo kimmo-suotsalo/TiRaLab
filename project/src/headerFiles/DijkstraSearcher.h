@@ -4,17 +4,20 @@
  * Author: kimpe
  */
 
+#include <algorithm>
+#include <cmath>
 #include <cstdio>
 #include <iostream>
 #include <limits>
+#include <vector>
 #include <queue>
-#include "../headerFiles/Node.h"
-#include "../headerFiles/NodeComparator.h"
+#include "../headerFiles/HeapComparator.h"
 
 #ifndef DIJKSTRASEARCHER_H_
 #define DIJKSTRASEARCHER_H_
 
-#define infinity std::numeric_limits<int>::max();
+//#define infinity std::numeric_limits<int>::max();
+#define infinity 1000000;
 #define null -1;
 
 class DijkstraSearcher {
@@ -26,20 +29,32 @@ public:
 	DijkstraSearcher(int *, int **);
 
 	/* Initializes the distance and path arrays. */
-	void initializeSingleSource();
+	/* Parameter: start location on the map. */
+	void initializeSingleSource(int*);
 
-	/* Initializes the distance and path arrays. */
-	void testHeap();
+	/* Inserts all nodes into the heap. */
+	void heapInsertAll();
 
-	/* Returns the data array's size (i.e. number of rows and columns). */
-	int *getArraySize();
+	/* Searches all shortest paths from the start node. */
+	void search();
 
-	/* Returns number of nodes in the graph. */
-	int getNumberOfNodes();
+	/* Deals with the node's neighbor.
+	 * Parameters: current node, neighboring node's row, neighboring node's column. */
+	void dealWithNeighbor(int, int, int);
 
-	/* Returns the shortest path found.
-	 * Parameter: end position to be reached. */
-	int *getShortestPath(int *endPosition);
+	/* Updates the neighboring node's distance and its place in the heap.
+	 * Parameters: current node, neighboring node. */
+	void relax(int, int);
+
+	/* Maps a given location to a node.
+	 * Parameter: location as an array [row, column].
+	 * Returns: node id. */
+	int locationToNode(int *);
+
+	/* Maps a given node to a location.
+	 * Parameter: node id.
+	 * Returns: location as an array [row, column]. */
+	int* nodeToLocation(int);
 
 private:
 
@@ -61,8 +76,8 @@ private:
 	 * as seen from node v. */
 	int *path;
 
-	/* A priority queue for simulating a min-heap. */
-	std::priority_queue<Node, std::vector<Node>, NodeComparator > heapDummy;
+	/* A vector of nodes for simulating a min-heap. */
+	std::vector<int*> nodeVector;
 };
 
 #endif /* DIJKSTRASEARCHER_H_ */

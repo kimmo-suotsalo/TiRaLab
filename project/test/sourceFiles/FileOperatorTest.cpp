@@ -5,7 +5,6 @@
  */
 
 #include "../headerFiles/FileOperatorTest.h"
-#include "../../src/headerFiles/FileOperator.h"
 
 FileOperatorTest::FileOperatorTest() {
 	FileOperator fileOperator("data/map.txt");

@@ -4,11 +4,12 @@
  * Author: kimpe
  */
 
-#ifndef FILEOPERATORTEST_H_
-#define FILEOPERATORTEST_H_
-
 #include <cassert>
 #include <iostream>
+#include "../../src/headerFiles/FileOperator.h"
+
+#ifndef FILEOPERATORTEST_H_
+#define FILEOPERATORTEST_H_
 
 class FileOperatorTest {
 
