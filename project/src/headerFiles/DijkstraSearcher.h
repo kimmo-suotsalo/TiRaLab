@@ -11,7 +11,7 @@
 #include <limits>
 #include <vector>
 #include <queue>
-#include "../headerFiles/HeapComparator.h"
+#include "../headerFiles/Heap.h"
 
 #ifndef DIJKSTRASEARCHER_H_
 #define DIJKSTRASEARCHER_H_
@@ -38,14 +38,6 @@ public:
 	/* Searches all shortest paths from the start node. */
 	void search();
 
-	/* Deals with the node's neighbor.
-	 * Parameters: current node, neighboring node's row, neighboring node's column. */
-	void dealWithNeighbor(int, int, int);
-
-	/* Updates the neighboring node's distance and its place in the heap.
-	 * Parameters: current node, neighboring node. */
-	void relax(int, int);
-
 	/* Maps a given location to a node.
 	 * Parameter: location as an array [row, column].
 	 * Returns: node id. */
@@ -55,6 +47,14 @@ public:
 	 * Parameter: node id.
 	 * Returns: location as an array [row, column]. */
 	int* nodeToLocation(int);
+
+	/* Gets the path array.
+	 * Returns: path array where a = path[b] iff node a precedes node b on the shortest path. */
+	int* getPath();
+
+	/* Gets the distance array.
+	 * Returns: distance array where distance[c] equals node c's distance from the start. */
+	int* getDistance();
 
 private:
 
@@ -76,8 +76,19 @@ private:
 	 * as seen from node v. */
 	int *path;
 
-	/* A vector of nodes for simulating a min-heap. */
-	std::vector<int*> nodeVector;
+	/* Starting node for the search. */
+	int startNode;
+
+	/* A min-heap to store the nodes in priority order. */
+	Heap heap;
+
+	/* Deals with the node's neighbor.
+	 * Parameters: current node, neighboring node's row, neighboring node's column. */
+	void dealWithNeighbor(int, int, int);
+
+	/* Updates the neighboring node's distance and its place in the heap.
+	 * Parameters: current node, neighboring node. */
+	void relax(int, int);
 };
 
 #endif /* DIJKSTRASEARCHER_H_ */

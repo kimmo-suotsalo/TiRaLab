@@ -20,8 +20,8 @@ public:
 	Heap(int);
 
 	/* Inserts a node to the heap.
-	 * Parameter: node's key. */
-	void insert(int);
+	 * Parameter: heap node as an ordered pair (key, value). */
+	void insert(int*);
 
 	/* Gets the index of a node's parent in the array.
 	 * Parameter: node's index.
@@ -40,10 +40,10 @@ public:
 
 	/* Deletes the node u with the smallest key.
 	 * Returns: node u. */
-	int delMin();
+	int* delMin();
 
 	/* Fixes the heap in case it is broken at node v.
-	 * Parameter: node v's key. */
+	 * Parameter: node v's index in the array. */
 	void heapify(int);
 
 	/* Decreases a node's key.
@@ -68,7 +68,7 @@ public:
 private:
 
 	/* An array to store the heap nodes. */
-	int *array;
+	int **array;
 
 	/* Length of the array. */
 	int arrayLength;
@@ -76,9 +76,9 @@ private:
 	/* Index of the heap's last element in the array. */
 	int heapSize;
 
-	/* Swaps the contents of two integer variables.
-	 * Parameters: variable a, variable b. */
-	void swap(int &, int &);
+	/* Swaps the contents of two heap nodes.
+	 * Parameters: node a, node b. */
+	void swap(int*, int*);
 };
 
 #endif /* HEAP_H_ */

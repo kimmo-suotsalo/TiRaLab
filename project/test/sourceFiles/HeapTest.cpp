@@ -23,11 +23,12 @@ void HeapTest::testHeapIsEmptyWhenInitialized() {
 }
 
 void HeapTest::insertSomeNodes() {
-	heap.insert(8);
-	heap.insert(5);
-	heap.insert(17);
-	heap.insert(0);
-	heap.insert(1);
+	int *heapNode = new int[2];
+	heapNode[0] = 0; heapNode[1] = 8; heap.insert(heapNode);
+	heapNode[0] = 1; heapNode[1] = 5; heap.insert(heapNode);
+	heapNode[0] = 2; heapNode[1] = 17; heap.insert(heapNode);
+	heapNode[0] = 3; heapNode[1] = 0; heap.insert(heapNode);
+	heapNode[0] = 4; heapNode[1] = 1; heap.insert(heapNode);
 }
 
 void HeapTest::testHeapSizeCorrespondsTheNumberOfNodes() {
@@ -57,10 +58,10 @@ void HeapTest::testGetRightReturnsCorrectIndex() {
 }
 
 void HeapTest::testDelMinReturnsCorrectNodes() {
-	assert(heap.delMin() == 0);
-	assert(heap.delMin() == 1);
-	assert(heap.delMin() == 5);
-	assert(heap.delMin() == 8);
-	assert(heap.delMin() == 17);
+	assert(heap.delMin()[0] == 3);
+	assert(heap.delMin()[0] == 4);
+	assert(heap.delMin()[0] == 1);
+	assert(heap.delMin()[0] == 0);
+	assert(heap.delMin()[0] == 2);
 }
 

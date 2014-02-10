@@ -9,9 +9,11 @@
 #include "../headerFiles/DijkstraSearcher.h"
 
 DijkstraSearcher::DijkstraSearcher(int *mapSize, int **mapData) :
-	arraySize(mapSize), dataArray(mapData),	numberOfNodes(mapSize[0] * mapSize[1]) {
+	arraySize(mapSize), dataArray(mapData),	numberOfNodes(mapSize[0] * mapSize[1]),
+	heap(numberOfNodes) {
 		distance = new int[numberOfNodes];
 		path = new int[numberOfNodes];
+		startNode = 0;
 }
 
 void DijkstraSearcher::initializeSingleSource(int* startLocation) {
@@ -19,29 +21,25 @@ void DijkstraSearcher::initializeSingleSource(int* startLocation) {
 		distance[nodeNumber] = infinity;
 		path[nodeNumber] = null;
 	}
-	int startNode = locationToNode(startLocation);
+	startNode = locationToNode(startLocation);
 	distance[startNode] = 0;
 }
 
 void DijkstraSearcher::heapInsertAll() {
 	for (int row = 0; row < arraySize[0]; row++) {
 		for (int col = 0; col < arraySize[1]; col++) {
-			int *heapNode = new int[6];
+			int *heapNode = new int[2];
 			int location[] = {row, col};
 			heapNode[0] = locationToNode(location);
 			heapNode[1] = distance[ heapNode[0] ];
-			nodeVector.push_back(heapNode);
+			heap.insert(heapNode);
 		}
 	}
-	HeapComparator comparator;
-	std::make_heap( nodeVector.begin(), nodeVector.end(), comparator );
 }
 
 void DijkstraSearcher::search() {
-	while ( !nodeVector.empty() ) {
-		int* heapMin = nodeVector.front();
-		nodeVector.erase( nodeVector.begin() );
-
+	while ( !heap.isEmpty() ) {
+		int* heapMin = heap.delMin();
 		int u = heapMin[0];
 		int* location = nodeToLocation(u);
 		int row = location[0];
@@ -81,12 +79,7 @@ void DijkstraSearcher::relax(int u, int v) {
 		path[v] = u;
 	}
 
-	int referenceNode[] = {v, distance[v]};
-	std::vector<int*>::iterator iter = std::find(nodeVector.begin(), nodeVector.end(), referenceNode);
-	int* heapNode = *iter;
-	heapNode[1] = distance[v];
-	HeapComparator comparator;
-	std::make_heap( nodeVector.begin(), nodeVector.end(), comparator);
+	heap.decKey(v, distance[v]);
 }
 
 int DijkstraSearcher::locationToNode(int* location) {
@@ -100,3 +93,10 @@ int* DijkstraSearcher::nodeToLocation(int nodeId) {
 	return location;
 }
 
+int* DijkstraSearcher::getPath() {
+	return path;
+}
+
+int* DijkstraSearcher::getDistance() {
+	return distance;
+}

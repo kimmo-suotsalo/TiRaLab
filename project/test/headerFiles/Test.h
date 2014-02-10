@@ -4,6 +4,10 @@
  * Author: kimpe
  */
 
+#include "../headerFiles/FileOperatorTest.h"
+#include "../headerFiles/HeapTest.h"
+#include "../headerFiles/DijkstraSearcherTest.h"
+
 #ifndef TEST_H_
 #define TEST_H_
 

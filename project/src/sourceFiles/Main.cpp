@@ -16,6 +16,7 @@ int main() {
 	#ifdef NDEBUG
 		Application shortestPath;
 		shortestPath.run();
+		shortestPath.visualize();
 	#endif
 
 	#ifndef NDEBUG
