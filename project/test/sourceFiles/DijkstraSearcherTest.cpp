@@ -6,33 +6,48 @@
 
 #include "../headerFiles/DijkstraSearcherTest.h"
 
+DijkstraSearcherTest::DijkstraSearcherTest() :
+	mapSize(new int[2]),
+	mapData(new int*[8]) {
+		mapSize[0] = 8;
+		mapSize[1] = 13;
+		for (int row = 0; row < 8; row++) mapData[row] = new int[13];
+	}
+
 void DijkstraSearcherTest::run() {
-
-	int mapSize[] = {8, 13};
-	int** mapData = new int*[ mapSize[0] ];
-
-	int mapRow0[] = {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0}; mapData[0] = mapRow0;
-	int mapRow1[] = {0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0}; mapData[1] = mapRow1;
-	int mapRow2[] = {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0}; mapData[2] = mapRow2;
-	int mapRow3[] = {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0}; mapData[3] = mapRow3;
-	int mapRow4[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0}; mapData[4] = mapRow4;
-	int mapRow5[] = {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0}; mapData[5] = mapRow5;
-	int mapRow6[] = {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}; mapData[6] = mapRow6;
-	int mapRow7[] = {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}; mapData[7] = mapRow7;
-
+	generateMapData();
 	DijkstraSearcher dijkstraSearcher = DijkstraSearcher(mapSize, mapData);
+
 	testLocationToNodeReturnsCorrectNode(dijkstraSearcher);
 	testNodeToLocationReturnsCorrectLocation(dijkstraSearcher);
 	testInitializeSingleSourceSetsDistanceAndPathRight(dijkstraSearcher);
 	testSearchLeadsToCorrectSolution(dijkstraSearcher);
 }
 
+void DijkstraSearcherTest::generateMapData() {
+	int dataArray[8][13] = { {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+							 {0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+						     {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+						     {0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0},
+						     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+						     {0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0},
+						     {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+						     {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0} };
+
+	for (int row = 0; row < 8; row++) {
+		for (int col = 0; col < 13; col++) {
+			mapData[row][col] = dataArray[row][col];
+		}
+	}
+}
+
 void DijkstraSearcherTest::testLocationToNodeReturnsCorrectNode(DijkstraSearcher dijkstraSearcher) {
-	int location0[] = {0, 0};  assert(dijkstraSearcher.locationToNode(location0) == 0);
-	int location1[] = {2, 12}; assert(dijkstraSearcher.locationToNode(location1) == 38);
-	int location2[] = {3, 0};  assert(dijkstraSearcher.locationToNode(location2) == 39);
-	int location3[] = {4, 7};  assert(dijkstraSearcher.locationToNode(location3) == 59);
-	int location4[] = {7, 12}; assert(dijkstraSearcher.locationToNode(location4) == 103);
+	int* location = new int[2];
+	location[0] = 0; location[1] = 0;  assert(dijkstraSearcher.locationToNode(location) == 0);
+	location[0] = 2; location[1] = 12; assert(dijkstraSearcher.locationToNode(location) == 38);
+	location[0] = 3; location[1] = 0;  assert(dijkstraSearcher.locationToNode(location) == 39);
+	location[0] = 4; location[1] = 7;  assert(dijkstraSearcher.locationToNode(location) == 59);
+	location[0] = 7; location[1] = 12; assert(dijkstraSearcher.locationToNode(location) == 103);
 }
 
 void DijkstraSearcherTest::testNodeToLocationReturnsCorrectLocation(DijkstraSearcher dijkstraSearcher) {
@@ -44,7 +59,7 @@ void DijkstraSearcherTest::testNodeToLocationReturnsCorrectLocation(DijkstraSear
 }
 
 void DijkstraSearcherTest::testInitializeSingleSourceSetsDistanceAndPathRight(DijkstraSearcher dijkstraSearcher) {
-	int startLocation[] = {0, 3};
+	int startLocation[2] = {0, 3};
 	dijkstraSearcher.initializeSingleSource(startLocation);
 	int* path = dijkstraSearcher.getPath();
 	int* distance = dijkstraSearcher.getDistance();

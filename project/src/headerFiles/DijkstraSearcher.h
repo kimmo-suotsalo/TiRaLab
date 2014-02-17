@@ -76,6 +76,10 @@ private:
 	 * as seen from node v. */
 	int *path;
 
+	/* An array of booleans whose element v tells whether node v has already been
+	 *  dealt with. */
+	bool *isDealtWith;
+
 	/* Starting node for the search. */
 	int startNode;
 

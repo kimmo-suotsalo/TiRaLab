@@ -7,7 +7,7 @@
 #include "../headerFiles/FileOperatorTest.h"
 
 FileOperatorTest::FileOperatorTest() {
-	FileOperator fileOperator("data/map.txt");
+	FileOperator fileOperator("data/testmap.txt");
 	sizeOfDataArray = fileOperator.getSize();
 	dataArray = fileOperator.getDataArray();
 }

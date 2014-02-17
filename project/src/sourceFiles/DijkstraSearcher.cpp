@@ -6,6 +6,8 @@
  * Author: kimpe
  */
 
+#define ECHO_OFF
+
 #include "../headerFiles/DijkstraSearcher.h"
 
 DijkstraSearcher::DijkstraSearcher(int *mapSize, int **mapData) :
@@ -13,6 +15,7 @@ DijkstraSearcher::DijkstraSearcher(int *mapSize, int **mapData) :
 	heap(numberOfNodes) {
 		distance = new int[numberOfNodes];
 		path = new int[numberOfNodes];
+		isDealtWith = new bool[numberOfNodes];
 		startNode = 0;
 }
 
@@ -20,6 +23,7 @@ void DijkstraSearcher::initializeSingleSource(int* startLocation) {
 	for (int nodeNumber = 0; nodeNumber < numberOfNodes; nodeNumber++) {
 		distance[nodeNumber] = infinity;
 		path[nodeNumber] = null;
+		isDealtWith[nodeNumber] = false;
 	}
 	startNode = locationToNode(startLocation);
 	distance[startNode] = 0;
@@ -41,12 +45,15 @@ void DijkstraSearcher::search() {
 	while ( !heap.isEmpty() ) {
 		int* heapMin = heap.delMin();
 		int u = heapMin[0];
+		isDealtWith[u] = true;
 		int* location = nodeToLocation(u);
 		int row = location[0];
 		int col = location[1];
 
+		#ifndef ECHO_OFF
 		std::cout << "Top node is " << u << "\nlocated at (" << row << ", "
 				  << col << ") \nwith value " << distance[u] << ".\n" << std::endl;
+		#endif
 
 		if (0 < row) dealWithNeighbor(u, row - 1, col);
 		if (row < arraySize[0] - 1) dealWithNeighbor(u, row + 1, col);
@@ -59,10 +66,13 @@ void DijkstraSearcher::dealWithNeighbor(int u, int row, int col) {
 	int location[] = {row, col};
 	int v = locationToNode(location);
 
-	std::cout << "Dealing with neighbor " << v << "\nlocated at (" << row << ", "
-			  << col << ") \nwith value " << distance[v] << ".\n" << std::endl;
-
-	relax(u, v);
+	if (!isDealtWith[v]) {
+		#ifndef ECHO_OFF
+		std::cout << "Dealing with neighbor " << v << "\nlocated at (" << row << ", "
+				  << col << ") \nwith value " << distance[v] << ".\n" << std::endl;
+		#endif
+		relax(u, v);
+	}
 }
 
 void DijkstraSearcher::relax(int u, int v) {
@@ -73,8 +83,10 @@ void DijkstraSearcher::relax(int u, int v) {
 	if (w == 0) w = infinity;
 
 	if (distance[v] > distance[u] + w) {
+		#ifndef ECHO_OFF
 		std::cout << "Updating node " << v << ": \nvalue " << distance[v]
 				  << "\nchanged to " << distance[u] + w << ".\n" << std::endl;
+		#endif
 		distance[v] = distance[u] + w;
 		path[v] = u;
 	}

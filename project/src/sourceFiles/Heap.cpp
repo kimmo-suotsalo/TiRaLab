@@ -58,7 +58,9 @@ void Heap::heapify(int i) {
 	} else if (left == heapSize && array[left][1] < array[i][1]) swap(array[i], array[left]);
 }
 
-void Heap::decKey(int i, int newKey) {
+void Heap::decKey(int v, int newKey) {
+	int i = 0;
+	while (array[i][0] != v) i++;
 	if (newKey < array[i][1]) {
 		array[i][1] = newKey;
 		while (0 < i && array[i][1] < array[getParent(i)][1]) {

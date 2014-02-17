@@ -13,8 +13,12 @@
 class DijkstraSearcherTest {
 
 public:
+	DijkstraSearcherTest();
 	void run();
 private:
+	int* mapSize;
+	int** mapData;
+	void generateMapData();
 	void testLocationToNodeReturnsCorrectNode(DijkstraSearcher);
 	void testNodeToLocationReturnsCorrectLocation(DijkstraSearcher);
 	void testInitializeSingleSourceSetsDistanceAndPathRight(DijkstraSearcher);
