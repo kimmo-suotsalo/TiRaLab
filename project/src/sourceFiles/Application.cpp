@@ -2,7 +2,7 @@
  * Path finding application.
  *
  * Uses a file operator to get the map from a file. Then finds the shortest
- * path between start position and end position using Dijkstra's algorithm.
+ * path between start position and end position using Dijkstra's algorithm or A*.
  *
  * Author: kimpe
  */
@@ -10,23 +10,26 @@
 #include "../headerFiles/Application.h"
 
 Application::Application(char** argv) :
-	mapFileName(argv[1]),
-	fileOperator("data/" + mapFileName),
- 	dijkstraSearcher( fileOperator.getSize(), fileOperator.getDataArray() ),
- 	startLocation(new int[2]),
- 	endLocation(new int[2]),
- 	pathLength(new int[2]) {
-		startLocation[0] = std::atoi(argv[2]);
-		startLocation[1] = std::atoi(argv[3]);
-		endLocation[0] = std::atoi(argv[4]);
-		endLocation[1] = std::atoi(argv[5]);
+	mapFileName(argv[3]), fileOperator("data/" + mapFileName), searcher( fileOperator.getSize(),
+	fileOperator.getDataArray() ), startLocation(new int[2]), endLocation(new int[2]), pathLength(new int[2]) {
+		startLocation[0] = std::atoi(argv[4]);
+		startLocation[1] = std::atoi(argv[5]);
+		endLocation[0] = std::atoi(argv[6]);
+		endLocation[1] = std::atoi(argv[7]);
+		if (argv[1][1] == 'd') searcher.setAlgorithm("Dijkstra's algorithm");
+		else if (argv[1][1] == 'a') searcher.setAlgorithm("A*");
+		if (argv[2][2] == 'n') searcher.setEchoMode("on");
+		else if (argv[2][2] == 'f') searcher.setEchoMode("off");
+		searcher.setStartNode(startLocation);
+		searcher.setEndNode(endLocation);
 }
 
 void Application::run() {
-	std::cout << "\nRunning the application. \n" << std::endl;
-	dijkstraSearcher.initializeSingleSource(startLocation);
-	dijkstraSearcher.heapInsertAll();
-	dijkstraSearcher.search();
+	std::cout << "\nRunning the search using " << searcher.getAlgorithm()
+			  << ". \n" << std::endl;
+	searcher.initializeSingleSource();
+	searcher.heapInsertAll();
+	searcher.search();
 	std::cout << "Run complete." << std::endl;
 }
 
@@ -53,19 +56,19 @@ void Application::drawMap(int* mapSize, int** mapData, bool containsPath) {
 }
 
 void Application::determineShortestPath(int* mapSize, int** mapData) {
-	int* path = dijkstraSearcher.getPath();
+	int* path = searcher.getPath();
 
 	mapData[ endLocation[0] ][ endLocation[1] ] = -1;
-	int startNode = dijkstraSearcher.locationToNode(startLocation);
-	int node = dijkstraSearcher.locationToNode(endLocation);
+	int startNode = searcher.locationToNode(startLocation);
+	int node = searcher.locationToNode(endLocation);
 
-	pathLength[0] = dijkstraSearcher.getDistance()[node];
+	pathLength[0] = searcher.getDistance()[node];
 	pathLength[1] = 0;
 
 	while (node != startNode) {
 		pathLength[1]++;
 		node = path[node];
-		int* location = dijkstraSearcher.nodeToLocation(node);
+		int* location = searcher.nodeToLocation(node);
 		mapData[ location[0] ][ location[1] ] = -1;
 	}
 }
@@ -73,4 +76,6 @@ void Application::determineShortestPath(int* mapSize, int** mapData) {
 void Application::report() {
 	std::cout << "\nPath length is " << pathLength[0] << "\nwith "
 			  << pathLength[1] << " steps.\n" << std::endl;
+	std::cout << "Number of visited nodes is " << searcher.getNumberOfVisitedNodes()
+			  << ".\n" << std::endl;
 }

@@ -6,7 +6,7 @@
 
 #include <string>
 #include "../headerFiles/FileOperator.h"
-#include "../headerFiles/DijkstraSearcher.h"
+#include "../headerFiles/Searcher.h"
 
 #ifndef APPLICATION_H_
 #define APPLICATION_H_
@@ -15,7 +15,8 @@ class Application {
 
 public:
 
-	/* Constructs a new application. */
+	/* Constructs a new application.
+	 * Parameter: command line arguments. */
 	Application(char**);
 
 	/* Runs the application. */
@@ -33,7 +34,7 @@ private:
 	FileOperator fileOperator;
 
 	/* An object to perform the actual search. */
-	DijkstraSearcher dijkstraSearcher;
+	Searcher searcher;
 
 	/* Start location for the search in the form of (row, column). */
 	int* startLocation;

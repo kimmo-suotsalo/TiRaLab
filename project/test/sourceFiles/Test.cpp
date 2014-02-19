@@ -15,8 +15,8 @@ void Test::run() {
 	HeapTest heapTest;
 	heapTest.run();
 
-	DijkstraSearcherTest dijkstraSearcherTest;
-	dijkstraSearcherTest.run();
+	SearcherTest searcherTest;
+	searcherTest.run();
 
 	std::cout << "All tests passed." << std::endl;
 }

@@ -20,7 +20,7 @@ public:
 	Heap(int);
 
 	/* Inserts a node to the heap.
-	 * Parameter: heap node as an ordered pair (key, value). */
+	 * Parameter: heap node as an ordered set (key, distance to start, distance to end). */
 	void insert(int*);
 
 	/* Gets the index of a node's parent in the array.
@@ -47,8 +47,8 @@ public:
 	void heapify(int);
 
 	/* Decreases a node's key.
-	 * Parameters: node's index in the array, new key value. */
-	void decKey(int, int);
+	 * Parameters: node's index in the array, distance from start, distance to end. */
+	void decKey(int, int, int);
 
 	/* Determines whether there are any nodes in the heap.
 	 * Returns: true if the heap is empty, false otherwise. */

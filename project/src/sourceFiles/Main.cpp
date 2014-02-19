@@ -14,13 +14,13 @@
 int main(int argc, char **argv) {
 
 	#ifdef NDEBUG
-		if (argc == 6) {
-			Application shortestPath(argv);
-			shortestPath.run();
-			shortestPath.visualize();
+		if (argc == 8) {
+			Application shortestPathFinder(argv);
+			shortestPathFinder.run();
+			shortestPathFinder.visualize();
 		} else {
-			std::cerr << "\nUsage: runApplication mapFileName startX startY endX endY\n"
-					  << std::endl;
+			std::cerr << "\nUsage: runApplication -algorithm -echoMode mapFileName"
+					  << "startX startY endX endY\n" << std::endl;
 			exit(1);
 		}
 	#endif
