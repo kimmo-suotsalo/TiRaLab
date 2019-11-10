@@ -1,9 +1,29 @@
-Tietorakenteet ja algoritmit -harjoitustyö, kevät 2014
-======================================================
+# Route optimization
 
-Dokumentaatio: doc/*.pdf
+This is a route optimization tool that I designed and implemented in 2014 as a course project. The tool can be used to search the fastest or least expensive route between two points on a map, given that the time or expense of each step is known. An example application for this tool is logistics planning in order to
 
-Ohjelman ajaminen komentoriviltä: project/runApplication -algorithm -echoMode mapFileName startX startY endX endY
-(esim. project/runApplication -d -on map.txt 0 0 29 29 tai project/runApplication -a -off map.txt 0 0 29 29)
+* deliver goods in time
+* minimize vehicle idle time
+* reduce costs and CO<sub>2</sub> emissions by saving fuel
 
-Testien ajaminen komentoriviltä: project/runTests
+The algorithms behind the tool include Dijkstra's algorithm and A<super>*</super>, both of which utilize a min-heap. The algorithms and data structures have been implemented from scratch using C++. The documentation is in Finnish.
+
+To run the tool from the Linux command line, use the following syntax:
+```
+$ project/runApplication -algorithm -echoMode mapFileName startX startY endX endY
+```
+
+Example 1:
+```
+$ project/runApplication -d -on map.txt 0 0 29 29
+```
+
+Example 2:
+```
+$ project/runApplication -a -off map.txt 0 0 29 29
+```
+
+Running the unit tests:
+```
+$ project/runTests
+```
