@@ -6,7 +6,7 @@ This is a route optimization tool that I designed and implemented in 2014 as a c
 * minimize vehicle idle time
 * reduce costs and CO<sub>2</sub> emissions by saving fuel
 
-The algorithms behind the tool include Dijkstra's algorithm and A<super>*</super>, both of which utilize a min-heap. The algorithms and data structures have been implemented from scratch using C++. The documentation is in Finnish.
+The algorithms behind the tool include [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) and [A<super>*</super>](https://en.wikipedia.org/wiki/A*_search_algorithm), both of which utilize a [min-heap](https://en.wikipedia.org/wiki/Binary_heap). The algorithms and data structures have been implemented from scratch using C++. The documentation is in Finnish.
 
 To run the tool from the Linux command line, use the following syntax:
 ```
